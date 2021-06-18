@@ -1,0 +1,39 @@
+@url = http://localhost:8080/api/agent
+
+GET {{url}} HTTP/1.1
+
+###
+
+GET {{url}}/2 HTTP/1.1
+
+###
+
+POST 
+Content-Type: application/json
+Accept: application/json
+
+{
+    "firstName": "Corbin",
+    "middleName": "Yoda",
+    "lastName": "March",
+    "dob": "1956-11-09",
+    "heightInInches": 41,
+    "agencies": []
+}
+
+PUT {{url}}/2 HTTP/1.1
+Content-Type: application/json
+
+{
+    "agentId": 2,
+    "firstName": "Corbin",
+    "middleName": "Yoda",
+    "lastName": "March",
+    "dob": "1956-11-09",
+    "heightInInches": 41,
+    "agencies": []
+}
+
+###
+
+DELETE {{url}}/6 HTTP/1.
