@@ -3,9 +3,7 @@ import { emptyAgent } from "./data";
 
 function AgentForm({currentAgent = emptyAgent, saveAgent}) {
 
-    const [agent, setAgent] = useState({
-        ...currentAgent
-    });
+    const [agent, setAgent] = useState({...currentAgent});
 
     const onChange = evt => {
         const nextAgent = { ...agent };
@@ -49,7 +47,7 @@ function AgentForm({currentAgent = emptyAgent, saveAgent}) {
         <div className="form-group">
             <label htmlFor="heightInInches">Height in Inches</label>
             <input type="text" className="form-control" id="heightInInches" name="heightInInches"
-                value={agent.middleName} onChange={onChange} />
+                value={agent.heightInInches} onChange={onChange} />
         </div>
         
         <div className="form-group">
