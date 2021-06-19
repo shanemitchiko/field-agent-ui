@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import AgentForm from "./AgentForm";
 import AgentConfirmDelete from "./AgentConfirmDelete";
+import "./Agents.css";
 
 const View = {
     AGENTS: 0,
@@ -51,44 +52,137 @@ function Agents() {
         }
     };
 
+    // const saveAgent = agent => {
+    //     if (agent) {
+    //         if (agent.id > 0) { // update
+    //             const agentIndex = agents.findIndex(a => a.agentId === agent.agentId);
+    //             const nextAgent = [...agents];
+    //             nextAgent.splice(agentIndex, 1, agent);
+
+    //             const jAgent = {
+    //                 "agentId": agent.agentId,
+    //                 "firstName": agent.firstName,
+    //                 "middleName": agent.middleName,
+    //                 "lastName": agent.lastName,
+    //                 "dob": agent.dob,
+    //                 "heightInInches": agent.heightInInches 
+    //             }
+
+    //             const init = {
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     "Accept": "application/json"
+    //                 },
+    
+    //                 body: JSON.stringify(jAgent)
+    //             }
+
+    //             fetch(`http://localhost:8080/api/agent/${agent.id}`, init)
+    //                 .then(r => {
+    //                     if (r.status === 204) {
+    //                         return fetchAll();
+    //                     }
+    //                     throw new Error("Update was not 204.");
+    //                 })
+    //                 .then(json => setAgents([...agents, json]))
+    //                 .catch(console.error);
+
+
+    //         } else { // add
+
+    //             const jAgent = {
+    //                 "firstName": agent.firstName,
+    //                 "middleName": agent.middleName,
+    //                 "lastName": agent.lastName,
+    //                 "dob": agent.dob,
+    //                 "heightInInches": agent.heightInInches
+    //             };
+
+    //             const init = {
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     "Accept": "application/json"
+    //                 },
+    
+    //                 body: JSON.stringify(jAgent)
+    //             }
+
+    //             fetch(`http://localhost:8080/api/agent/`, init)
+    //                 .then(r => {
+    //                     if (r.status === 201) {
+    //                         return fetchAll();
+    //                     }
+    //                     throw new Error("Update was not 204.");
+    //                 })
+    //                 .then(json => setAgents([...agents, json]))
+    //                 .catch(console.error);
+
+    //         }
+    //     }
+    //     setCurrentView(View.AGENTS);
+    // };
+
     const saveAgent = agent => {
-        if (agent) {
-
-            const init = {
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify(agent)
-            }
-
-            if (agent.id > 0) { // update
-
-                init.method = "PUT";
-
-                fetch(`http://localhost:8080/api/agent/${agent.id}`, init)
-                    .then(r => {
-                        if (r.status === 204) {
-                            return fetchAll();
+        if(agent) {
+            if(agent.agentId > 0) {
+                const agentIndex = agents.findIndex(a => a.agentId === agent.agentId);
+                const nextAgent = [...agents];
+                nextAgent.splice(agentIndex, 1, agent);
+                
+                const jsonAgent = {
+                    "agentId": agent.agentId,
+                    "firstName": agent.firstName,
+                    "middleName": agent.middleName,
+                    "lastName": agent.lastName,
+                    "dob": agent.dob,
+                    "heightInInches": agent.heightInInches
+                };
+            
+                const init = {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(jsonAgent)
+                };
+            
+                fetch(`http://localhost:8080/api/agent/${agent.agentId}`, init)
+                    .then(response => {
+                        if (response.status !== 201) {
+                            return Promise.reject("response is not 200 OK");
                         }
-                        throw new Error("Update was not 204.");
+                        return response.json();
                     })
-                    .catch(console.error);
-
-
-            } else { // add
-
-                init.method = "POST";
-
-                fetch(`http://localhost:8080/api/agent/`, init)
-                    .then(r => {
-                        if (r.status === 201) {
-                            return fetchAll();
+                    .then(json => setAgents([...agents, json])) // Spread new state
+                    .catch(console.log);
+            } else {
+                const jsonAgent = {
+                    "firstName": agent.firstName,
+                    "middleName": agent.middleName,
+                    "lastName": agent.lastName,
+                    "dob": agent.dob,
+                    "heightInInches": agent.heightInInches
+                };
+            
+                const init = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify(jsonAgent)
+                };
+            
+                fetch("http://localhost:8080/api/agent", init)
+                    .then(response => {
+                        if (response.status !== 201) {
+                            return Promise.reject("response is not 200 OK");
                         }
-                        throw new Error("Update was not 204.");
+                        return response.json();
                     })
-                    .catch(console.error);
-
+                    .then(json => setAgents([...agents, json])) // Spread new state
+                    .catch(console.log);
             }
         }
         setCurrentView(View.AGENTS);
@@ -117,10 +211,7 @@ function Agents() {
     return (
         <>
             <div className="row align-items-center">
-                <h1 className="col">AGENTS</h1>
-                <div className="col d-flex justify-content-end">
-                    <button className="btn btn-primary" onClick={addClick}>Add Agent</button>
-                </div>
+                <h1 className="col">A G E N T S</h1>
             </div>
             <div className="row grid-header">
                 <div className="col">First Name</div>
