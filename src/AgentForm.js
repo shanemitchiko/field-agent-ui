@@ -22,6 +22,7 @@ function AgentForm({ currentAgent = emptyAgent, saveAgent }) {
     const onSubmit = evt => {
         evt.preventDefault();
 
+        //validations
         // const firstName = document.getElementById("firstName").value.trim();
         // if (firstName.length === 0) {
         //     err("First name is required");
@@ -45,6 +46,8 @@ function AgentForm({ currentAgent = emptyAgent, saveAgent }) {
         //     err("Qualified height must be between 36 and 96 inches")
         //     return;
         // }
+
+
         saveAgent(agent);
     };
 
@@ -67,7 +70,7 @@ function AgentForm({ currentAgent = emptyAgent, saveAgent }) {
                 </div>
             </div>
 
-            <h2>{`${(agent.id > 0 ? "Edit" : "Add")} an agent`}</h2>
+            <h2>{`${(agent.agentId > 0 ? "Edit" : "Add")} an agent`}</h2>
             <div className="form-group">
                 <label htmlFor="name">First Name</label>
                 <input type="text" className="form-control" id="firstName" name="firstName"
