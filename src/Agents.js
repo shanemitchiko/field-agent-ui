@@ -1,7 +1,9 @@
+import React from 'react';
 import { useState, useEffect } from "react";
 import AgentForm from "./AgentForm";
 import AgentConfirmDelete from "./AgentConfirmDelete";
 import "./Agents.css";
+import * as ReactBootStrap from "react-bootstrap";
 
 const View = {
     AGENTS: 0,
@@ -123,8 +125,8 @@ function Agents() {
     // };
 
     const saveAgent = agent => {
-        if(agent) {
-            if(agent.agentId > 0) {
+        if (agent) {
+            if (agent.agentId > 0) {
                 put(agent);
             } else {
                 post(agent);
@@ -132,12 +134,11 @@ function Agents() {
         }
         setCurrentView(View.AGENTS);
     };
- 
 
 
-async function put(agent) {
- 
-        const jsonAgent = {
+    async function put(agent) {
+
+        const jAgent = {
             "agentId": agent.agentId,
             "firstName": agent.firstName,
             "middleName": agent.middleName,
@@ -145,65 +146,74 @@ async function put(agent) {
             "dob": agent.dob,
             "heightInInches": agent.heightInInches,
         };
-    
+
         const init = {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
-            body: JSON.stringify(jsonAgent)
+            body: JSON.stringify(jAgent)
         };
-    
+
         fetch(`http://localhost:8080/api/agent/${agent.agentId}`, init)
-        .then(response => {
-                if (response.status === 404) {
+            .then(r => {
+                if (r.status === 404) {
                     console.log("Agent not found.");
-                } else if (response.status === 204) {
+                } else if (r.status === 204) {
+                    setAgents(json => setAgents([...agents, json]))
                     console.log("Agent updated!");
                 } else {
-                    console.log(`Agent id ${jsonAgent.agentId} update failed with status ${response.status}.`);
+                    console.log(`Agent id ${jAgent.agentId} update failed with status ${r.status}.`);
                 }
             })
     }
- 
 
 
-async function post(agent) {
- 
-        const jsonAgent = {
+
+    async function post(agent) {
+
+        const jAgent = {
             "firstName": agent.firstName,
             "middleName": agent.middleName,
             "lastName": agent.lastName,
             "dob": agent.dob,
             "heightInInches": agent.heightInInches,
         };
-    
+
         const init = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
-            body: JSON.stringify(jsonAgent)
+            body: JSON.stringify(jAgent)
         };
-    
+
         fetch("http://localhost:8080/api/agent", init)
-        .then(response => {
-                if (response.status !== 201) {
+            .then(r => {
+                if (r.status !== 201) {
                     return Promise.reject("response is not 200 OK");
                 } else {
                     console.log("Agent created")
                 }
-                return response.json();
+                return r.json();
             })
             .then(json => setAgents([...agents, json])) // Spread new state
             .catch(console.log);
     }
 
 
-const confirmDelete = (shouldDelete, agentId) => {
-    if (shouldDelete) {
+    const confirmDelete = (shouldDelete, agentId) => {
+        if (shouldDelete) {
+            doDelete(agentId)
+        }
+        setCurrentView(View.AGENTS);
+    };
+
+
+
+    async function doDelete(agentId) {
         fetch(`http://localhost:8080/api/agent/${agentId}`, { method: "DELETE" })
             .then(r => {
                 if (r.status === 204) {
@@ -212,47 +222,164 @@ const confirmDelete = (shouldDelete, agentId) => {
                 throw new Error("Delete was not 204.");
             })
             .catch(console.error);
+    };
+
+    if (currentView === View.FORM) {
+        return <AgentForm saveAgent={saveAgent} currentAgent={currentAgent} />;
+    } else if (currentView === View.CONFIRM_DELETE) {
+        return <AgentConfirmDelete confirm={confirmDelete} currentAgent={currentAgent} />;
     }
-    setCurrentView(View.AGENTS);
-};
 
-if (currentView === View.FORM) {
-    return <AgentForm saveAgent={saveAgent} currentAgent={currentAgent} />;
-} else if (currentView === View.CONFIRM_DELETE) {
-    return <AgentConfirmDelete confirm={confirmDelete} currentAgent={currentAgent} />;
-}
+    return (
+        <>
+            <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+                <div className="container">
+                    <a className="navbar-brand" href="index.html">
+                        FIELD AGENTS
+                    </a>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
+                        <span className="navbar-toggler-icon" />
+                    </button>
 
-return (
-    <>
-        <div className="row align-items-center">
-            <h1 className="col">A G E N T S</h1>
-        </div>
-        <div className="row grid-header">
-            <div className="col">First Name</div>
-            <div className="col">Middle Name</div>
-            <div className="col">Last Name</div>
-            <div className="col">Date Of Birth</div>
-            <div className="col">Height (in)</div>
-            <div className="col"></div>
-        </div>
-        {agents && agents.map(a => <div key={a.id} className="row">
-            <div className="col">{a.firstName}</div>
-            <div className="col">{a.middleName}</div>
-            <div className="col">{a.lastName}</div>
-            <div className="col">{a.dob}</div>
-            <div className="col">{a.heightInInches}</div>
-            <div className="col">
-                <button className="btn btn-danger me-2" value={a.id} onClick={deleteClick}>Delete</button>
-                <button className="btn btn-info" value={a.id} onClick={updateClick}>Edit</button>
+                    <div className="collapse navbar-collapse" id="mobile-nav">
+                        <ul className="navbar-nav mr-auto">
+                            <li className="nav-item">
+                                <a className="nav-link" href="/view">
+                                    VIEW
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <a className="nav-link " onClick={addClick}>
+                                    ADD AGENT
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <h1 className="display-4 text-center">FIELD-AGENTS</h1>
+                        <hr />
+                    </div>
+                </div>
             </div>
-        </div>)}
-        <div className="row align-items-center">
-            <div className="col-md-12 text-left">
-                <button className="btn btn-primary" onClick={addClick}>Add Agent</button>
+
+
+
+
+
+
+            {/* 
+            <div>
+            <ReactBootstrap.Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td colSpan="2">Larry the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </ReactBootstrap.Table>
+            </div> */}
+
+
+
+
+
+            <table className="table table-bordered">
+                <thead className="thead-dark">
+                    <tr>
+                        <th>First Name</th>
+                        <th scope="col">Middle Name</th>
+                        <th scope="col">Last Name</th>
+                        <th scope="col">Date Of Birth</th>
+                        <th scope="col">Height (in)</th>
+                        <th scope="col">Update</th>
+
+                    </tr>
+                </thead>
+                <tbody className="tbody-dark">
+                    {agents && agents.map(a => <tr key={a.id} className="row p-2 flex-fill bd-highlight">
+                        <td colspan="2" className="col text-align-center">{a.firstName}</td>
+                        <td colspan="1" className="col text-align-center">{a.middleName}</td>
+                        <td colspan="1" className="col text-align-center">{a.lastName}</td>
+                        <td colspan="1" className="col text-align-center">{a.dob}</td>
+                        <td colspan="1" className="col text-align-center">{a.heightInInches}</td>
+                        <td colspan="2" className="col ">
+                            <button className="btn btn-danger me-2" value={a.id} onClick={deleteClick}>Delete</button>
+                            <button className="btn btn-info" value={a.id} onClick={updateClick}>Edit</button>
+                        </td>
+                    </tr>)}
+                </tbody>
+            </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {/* <div className="row grid-header">
+                <div className="col">First Name</div>
+                <div className="col">Middle Name</div>
+                <div className="col">Last Name</div>
+                <div className="col">Date Of Birth</div>
+                <div className="col">Height (in)</div>
+                <div className="col"></div>
             </div>
-        </div>
-    </>
-);
+            {agents && agents.map(a => <div key={a.id} className="row">
+                <div className="col">{a.firstName}</div>
+                <div className="col">{a.middleName}</div>
+                <div className="col">{a.lastName}</div>
+                <div className="col">{a.dob}</div>
+                <div className="col">{a.heightInInches}</div>
+                <div className="col">
+                    <button className="btn btn-danger me-2" value={a.id} onClick={deleteClick}>Delete</button>
+                    <button className="btn btn-info" value={a.id} onClick={updateClick}>Edit</button>
+                </div>
+            </div>)}
+            <div className="row align-items-center">
+                <div className="col-md-12 text-left">
+                    <button className="btn btn-primary" onClick={addClick}>Add Agent</button>
+                </div>
+            </div> */}
+        </>
+    );
 }
 
 export default Agents;

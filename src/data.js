@@ -4,5 +4,5 @@ export const emptyAgent = {
     middleName: "",
     lastName: "",
     dob: "",
-    heightInInches: 0
+    heightInInches: ""
 };
