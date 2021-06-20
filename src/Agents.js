@@ -12,7 +12,7 @@ const View = {
 
 function Agents() {
 
-    const [agents, setAgents] = useState();
+    const [agents, setAgents] = useState([]);
     const [currentView, setCurrentView] = useState(View.AGENTS)
     const [currentAgent, setCurrentAgent] = useState();
 
@@ -68,7 +68,8 @@ function Agents() {
             "middleName": agent.middleName,
             "lastName": agent.lastName,
             "dob": agent.dob,
-            "heightInInches": agent.heightInInches
+            "heightInInches": agent.heightInInches,
+            "agencies": []
         }
 
         const init = {
@@ -130,12 +131,15 @@ function Agents() {
 
 
 
-    const confirmDelete = (shouldDelete, agent) => {
+    
+
+    const confirmDelete = (shouldDelete, agentId) => {
         if (shouldDelete) {
-            doDelete(agent.agentId)
+            doDelete(agentId)
         }
         setCurrentView(View.AGENTS);
     };
+
 
 
 
@@ -144,8 +148,12 @@ function Agents() {
             .then(r => {
                 if (r.status === 204) {
                     setAgents(agents.filter(a => a.agentId !== agentId))
+                    console.log("Agent deleted!")
+                } else if (r.status === 404) {
+                    return Promise.reject("Agent not found");
+                } else {
+                    return Promise.reject(`Delete failed with status: ${r.status}`);
                 }
-                throw new Error("Delete was not 204.");
             })
             .catch(console.error);
     };
@@ -153,12 +161,12 @@ function Agents() {
     if (currentView === View.FORM) {
         return <AgentForm saveAgent={saveAgent} currentAgent={currentAgent} />;
     } else if (currentView === View.CONFIRM_DELETE) {
-        return <AgentConfirmDelete confirm={confirmDelete} currentAgent={currentAgent.agentId} />;
+        return <AgentConfirmDelete confirm={confirmDelete} currentAgent={currentAgent} />;
     }
 
     return (
         <>
-            <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+            <nav id="navigation" className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
                 <div className="container">
                     <a className="navbar-brand" href="index.html">
                         FIELD AGENTS
@@ -209,25 +217,25 @@ function Agents() {
             <table className="table table-bordered">
                 <thead className="thead-dark">
                     <tr>
-                        <th>First Name</th>
-                        <th scope="col">Middle Name</th>
-                        <th scope="col">Last Name</th>
-                        <th scope="col">Date Of Birth</th>
-                        <th scope="col">Height (in)</th>
-                        <th scope="col">Update</th>
+                        <th id="th1" scope="col">First Name</th>
+                        <th id="th2" scope="col">Middle Name</th>
+                        <th id="th3"scope="col">Last Name</th>
+                        <th id="th4"scope="col">Date Of Birth</th>
+                        <th id="th5"scope="col">Height (in)</th>
+                        <th id="th6" scope="col">Update</th>
 
                     </tr>
                 </thead>
                 <tbody className="tbody-dark">
-                    {agents && agents.map(a => <tr key={a.agentId} className="row p-2 flex-fill bd-highlight">
-                        <td colspan="2" className="col text-align-center">{a.firstName}</td>
-                        <td colspan="1" className="col text-align-center">{a.middleName}</td>
-                        <td colspan="1" className="col text-align-center">{a.lastName}</td>
-                        <td colspan="1" className="col text-align-center">{a.dob}</td>
-                        <td colspan="1" className="col text-align-center">{a.heightInInches}</td>
-                        <td colspan="2" className="col ">
-                            <button className="btn btn-danger me-2" onClick={() => deleteClick(a.agentId)}>Delete</button>
-                            <button className="btn btn-info" onClick={() => updateClick(a.agentId)}>Edit</button>
+                    {agents && agents.map(a => <tr key={a.agentId} >
+                        <td headers="th1" className="col text-align-center">{a.firstName}</td>
+                        <td headers="th2" className="col text-align-center">{a.middleName}</td>
+                        <td headers="th3" className="col text-align-center">{a.lastName}</td>
+                        <td headers="th4" className="col text-align-center">{a.dob}</td>
+                        <td headers="th5" className="col text-align-center">{a.heightInInches}</td>
+                        <td headers="th6" className="col ">
+                            <button className="btn btn-danger me-2" onClick={() => deleteClick(a)}>Delete</button>
+                            <button className="btn btn-info" onClick={() => updateClick(a)}>Edit</button>
                         </td>
                     </tr>)}
                 </tbody>
@@ -274,5 +282,6 @@ function Agents() {
         </>
     );
 }
+
 
 export default Agents;

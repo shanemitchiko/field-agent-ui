@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { emptyAgent } from "./data";
+import './AgentForm.css';
 
 
 // const messages = document.getElementById("messages");
@@ -70,7 +71,7 @@ function AgentForm({ currentAgent = emptyAgent, saveAgent }) {
                 </div>
             </div>
 
-            <h2>{`${(agent.agentId > 0 ? "Edit" : "Add")} an agent`}</h2>
+            <h2 id="formHeader">{`${(agent.agentId > 0 ? "Edit" : "Add")} an agent`}</h2>
             <div className="form-group">
                 <label htmlFor="name">First Name</label>
                 <input type="text" className="form-control" id="firstName" name="firstName"

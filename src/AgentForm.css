@@ -1,0 +1,12 @@
+form {
+    margin: 2vh 0 0 3vw;
+}
+
+input[type="text"] {
+    width: 30vw;
+    margin: 0 0 2vh 0;
+}
+
+#formHeader {
+    margin: 0 0 2vh 0;
+}

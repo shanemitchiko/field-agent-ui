@@ -1,14 +1,14 @@
-function AgentConfirmDelete({ currentAgent, confirm }) {
+function AgentConfirmDelete({currentAgent, confirm }) {
 
-    const yesDelete = () => confirm(true, currentAgent.agentid);
+    const yesDelete = () => confirm(true, currentAgent.agentId);
     const cancel = () => confirm(false);
 
     return (
         <div>
-            <h2>Delete {currentAgent.agentid}?</h2>
+            <h2>Delete {currentAgent.firstName}?</h2>
             <div className="alert alert-danger">
                 <p>
-                    All data for {currentAgent.agentid} will be permanently deleted.
+                    "All data for {currentAgent.firstName} will be permanently deleted.
                 </p>
                 Are you sure?
             </div>

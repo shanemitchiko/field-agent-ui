@@ -2,8 +2,15 @@ body {
     background-color: #f5f5f5e1;
 }
 
+td {
+    width: 30vw;
+}
 
-table tbody tr td {
-    table-layout: fixed;
+#navigation {
+    height: 8vh;
+}
+
+table {
+    margin: 2vh 3vw 2vh 2vw;
 }
 
