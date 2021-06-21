@@ -5,10 +5,10 @@ function AgentConfirmDelete({currentAgent, confirm }) {
 
     return (
         <div>
-            <h2>Delete {currentAgent.firstName}?</h2>
+            <h2>Delete {currentAgent.firstName} {currentAgent.middleName} {currentAgent.lastName}?</h2>
             <div className="alert alert-danger">
                 <p>
-                    "All data for {currentAgent.firstName} will be permanently deleted.
+                    All data for {currentAgent.firstName} {currentAgent.middleName} {currentAgent.lastName} will be permanently deleted.
                 </p>
                 Are you sure?
             </div>

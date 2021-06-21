@@ -24,8 +24,7 @@ function AgentForm({ currentAgent = emptyAgent, saveAgent }) {
     };
 
     return (
-
-
+        
         <form onSubmit={onSubmit}>
 
             <div className="container">
