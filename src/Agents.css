@@ -2,15 +2,18 @@ body {
     background-color: #f5f5f5e1;
 }
 
-td {
-    width: 30vw;
-}
-
 #navigation {
-    height: 8vh;
+    height: 6vh;
 }
 
 table {
-    margin: 2vh 3vw 2vh 2vw;
+    margin: 2vh 0 0 2vw;
 }
 
+#table-container {
+    width: 95.5vw;
+}
+
+#btn-click {
+    margin: 0 3vw 0 0;
+}

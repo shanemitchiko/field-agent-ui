@@ -48,8 +48,6 @@ function Agents() {
     };
 
 
-
-
     const saveAgent = agent => {
         if (agent) {
             if (agent.agentId > 0) {
@@ -129,18 +127,12 @@ function Agents() {
     };
 
 
-
-
-    
-
     const confirmDelete = (shouldDelete, agentId) => {
         if (shouldDelete) {
             doDelete(agentId)
         }
         setCurrentView(View.AGENTS);
     };
-
-
 
 
     async function doDelete(agentId) {
@@ -199,21 +191,14 @@ function Agents() {
             <div className="container">
                 <div className="row">
                     <div className="col-md-12">
-                        <h1 className="display-4 text-center">FIELD-AGENTS</h1>
+                        <h1 className="display-4 text-center">FIELD AGENTS</h1>
                         <hr />
                     </div>
                 </div>
             </div>
 
 
-
-
-
-
-
-
-
-
+            <div id="table-container">
             <table className="table table-bordered">
                 <thead className="thead-dark">
                     <tr>
@@ -234,51 +219,13 @@ function Agents() {
                         <td headers="th4" className="col text-align-center">{a.dob}</td>
                         <td headers="th5" className="col text-align-center">{a.heightInInches}</td>
                         <td headers="th6" className="col ">
-                            <button className="btn btn-danger me-2" onClick={() => deleteClick(a)}>Delete</button>
-                            <button className="btn btn-info" onClick={() => updateClick(a)}>Edit</button>
+                            <button id="btn-click" className="btn btn-info" onClick={() => updateClick(a)}>Edit</button>
+                            <button id="btn-click" className="btn btn-danger me-2" onClick={() => deleteClick(a)}>Delete</button>
                         </td>
                     </tr>)}
                 </tbody>
             </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            {/* <div className="row grid-header">
-                <div className="col">First Name</div>
-                <div className="col">Middle Name</div>
-                <div className="col">Last Name</div>
-                <div className="col">Date Of Birth</div>
-                <div className="col">Height (in)</div>
-                <div className="col"></div>
             </div>
-            {agents && agents.map(a => <div key={a.id} className="row">
-                <div className="col">{a.firstName}</div>
-                <div className="col">{a.middleName}</div>
-                <div className="col">{a.lastName}</div>
-                <div className="col">{a.dob}</div>
-                <div className="col">{a.heightInInches}</div>
-                <div className="col">
-                    <button className="btn btn-danger me-2" value={a.id} onClick={deleteClick}>Delete</button>
-                    <button className="btn btn-info" value={a.id} onClick={updateClick}>Edit</button>
-                </div>
-            </div>)}
-            <div className="row align-items-center">
-                <div className="col-md-12 text-left">
-                    <button className="btn btn-primary" onClick={addClick}>Add Agent</button>
-                </div>
-            </div> */}
         </>
     );
 }

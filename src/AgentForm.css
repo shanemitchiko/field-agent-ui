@@ -2,7 +2,7 @@ form {
     margin: 2vh 0 0 3vw;
 }
 
-input[type="text"] {
+input[type="text"], input[type="date"], input[type=number] {
     width: 30vw;
     margin: 0 0 2vh 0;
 }
