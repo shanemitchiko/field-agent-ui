@@ -36,38 +36,12 @@ function Nav() {
                                 : <Link to="/login" className="btn btn-light">Login</Link>}
                             </li>
                             <li className="nav-item">
-                                <Link to="/agents" className={`nav-link${(username ? "" : " disabled")}`}>VIEW AGENTS</Link> 
-                            </li>
-                            <li className="nav-item">
                                 <Link to="/add" className={`nav-link${(username ? "" : " disabled")}`}>ADD AGENT</Link>
-                            </li>
-
-                        </ul>
-
-                        <ul className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <a>
-                                    < Link to="/add" className={`nav-link${(username ? "" : " disabled")}`}>ADD AGENT</Link>
-                                </a>
                             </li>
                         </ul>
                     </div>
                 </div>
             </nav>
-
-
-
-            {/* 
-        <div className="row align-items-center">
-            <div className="col d-flex justify-content-center mb-1">
-                <Link to="/" className="btn btn-primary me-1">Home</Link>
-                <Link to="/add" className={`btn btn-primary me-1${(username ? "" : " disabled")}`}>Add</Link>
-                <Link to="/about" className="btn btn-primary me-1">About</Link>
-                {username ? <button className="btn btn-dark" onClick={logout}>Logout</button>
-                    : <Link to="/login" className="btn btn-light">Login</Link>}
-            </div>
-        </div> */}
-
         </>
     );
 }

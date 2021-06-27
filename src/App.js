@@ -10,7 +10,7 @@ import Login from "./components/Login";
 import Nav from "./components/Nav";
 import NotFound from "./components/NotFound";
 import Register from "./components/Register";
-import View from "./components/View";
+
 
 function App() {
 
@@ -53,10 +53,6 @@ function App() {
 
           <Route path="/login">
             <Login />
-          </Route>
-
-          <Route path="/View">
-            <View />
           </Route>
 
           <Route path="/Fail">
