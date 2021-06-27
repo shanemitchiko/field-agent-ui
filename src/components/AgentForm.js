@@ -1,11 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { findById, add, update } from "../services/Agents";
+import { useHistory, useParams } from "react-router";
+import LoginContext from "../contexts/LoginContext";
 import { emptyAgent } from "./data";
 import './AgentForm.css';
 
-function AgentForm({ currentAgent = emptyAgent, saveAgent }) {
+function AgentForm() {
 
-    const [agent, setAgent] = useState({ ...currentAgent });
+    const [agent, setAgent] = useState(emptyAgent);
 
+    const history = useHistory();
+    
+    const { username } = useContext(LoginContext);
+
+    if (!username) {
+        history.push("/");
+    }
+
+    const { id } = useParams();
+    console.log(id);
+
+    useEffect(() => {
+        if (id) {
+        findById(id).then((data) => {
+            setAgent(data);
+        });
+        }
+    }, [history, id]);
 
     const onChange = evt => {
         const nextAgent = { ...agent };
@@ -15,12 +36,20 @@ function AgentForm({ currentAgent = emptyAgent, saveAgent }) {
 
     const onSubmit = evt => {
         evt.preventDefault();
-        saveAgent(agent);
+        if (agent.agentId > 0) {
+            update(agent)
+                .then(() => history.push("/"))
+                .catch(() => history.push("/failure"));
+        } else {
+            add(agent)
+                .then(() => history.push("/"))
+                .catch(() => history.push("/failure"));
+        }
     };
 
     const cancel = evt => {
         evt.preventDefault();
-        saveAgent(null);
+        history.push("/");
     };
 
     return (
