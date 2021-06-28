@@ -17,16 +17,16 @@ function AgentForm() {
         history.push("/");
     }
 
-    const { id } = useParams();
-    console.log(id);
+    const { agentId } = useParams();
+    console.log(agentId);
 
     useEffect(() => {
-        if (id) {
-        findById(id).then((data) => {
+        if (agentId) {
+        findById(agentId).then((data) => {
             setAgent(data);
         });
         }
-    }, [history, id]);
+    }, [history, agentId]);
 
     const onChange = evt => {
         const nextAgent = { ...agent };
@@ -65,30 +65,30 @@ function AgentForm() {
                 </div>
             </div>
 
-            <h2 id="formHeader">{`${(agent.agentId > 0 ? "Edit" : "Add")} an agent`}</h2>
+            <h2 agentId="formHeader">{`${(agent.agentId > 0 ? "Edit" : "Add")} an agent`}</h2>
             <div className="form-group">
                 <label htmlFor="name">First Name</label>
-                <input type="text" className="form-control" id="firstName" name="firstName" required
+                <input type="text" className="form-control" agentId="firstName" name="firstName" required
                     value={agent.firstName} onChange={onChange} />
             </div>
             <div className="form-group">
                 <label htmlFor="middleName">Middle Name</label>
-                <input type="text" className="form-control" id="middleName" name="middleName" 
+                <input type="text" className="form-control" agentId="middleName" name="middleName" 
                     value={agent.middleName} onChange={onChange} />
             </div>
             <div className="form-group">
                 <label htmlFor="lastName">Last Name</label>
-                <input type="text" className="form-control" id="lastName" name="lastName" required
+                <input type="text" className="form-control" agentId="lastName" name="lastName" required
                     value={agent.lastName} onChange={onChange} />
             </div>
             <div className="form-group">
                 <label htmlFor="dob">Date Of Birth</label>
-                <input type="date" min="1900-06-21" max="2009-06-21" className="form-control" id="dob" name="dob" required
+                <input type="date" min="1900-06-21" max="2009-06-21" className="form-control" agentId="dob" name="dob" required
                     value={agent.dob} onChange={onChange} />
             </div>
             <div className="form-group">
                 <label htmlFor="heightInInches">Height in Inches</label>
-                <input type="number" min="36" max="96" className="form-control" id="heightInInches" name="heightInInches" required
+                <input type="number" min="36" max="96" className="form-control" agentId="heightInInches" name="heightInInches" required
                     value={agent.heightInInches} onChange={onChange} />
             </div>
 

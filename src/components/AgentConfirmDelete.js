@@ -7,16 +7,16 @@ function AgentConfirmDelete() {
 
     const [agent, setAgent] = useState({ firstName: "",  middleName: "", lastName: "" });
     const history = useHistory();
-    const { id } = useParams();
+    const { agentId } = useParams();
     const { jwt } = useContext(LoginContext);
 
     useEffect(() => {
-        if (id) {
-            findById(id)
+        if (agentId) {
+            findById(agentId)
                 .then(a => setAgent(a))
                 .catch(() => history.push("/failure"));
         }
-    }, [history, id]);
+    }, [history, agentId]);
 
     const yesDelete = () => {
         deleteById(agent.agentId, jwt)

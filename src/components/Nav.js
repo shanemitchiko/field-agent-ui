@@ -14,7 +14,7 @@ function Nav() {
 
     return (
         <>
-            <nav id="navigation" className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
+            <nav id="navigation" className="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
                 <div className="container">
                     <a className="navbar-brand">
                         FIELD AGENTS
@@ -36,9 +36,13 @@ function Nav() {
                                 : <Link to="/login" className="btn btn-light">Login</Link>}
                             </li>
                             <li className="nav-item">
+                                <Link to="/view" className={`nav-link${(username ? "" : " disabled")}`}>VIEW AGENTS</Link>
+                            </li>
+                            <li className="nav-item">
                                 <Link to="/add" className={`nav-link${(username ? "" : " disabled")}`}>ADD AGENT</Link>
                             </li>
                         </ul>
+                        <div className="text-right"> Welcome {username}</div>
                     </div>
                 </div>
             </nav>

@@ -10,6 +10,7 @@ import Login from "./components/Login";
 import Nav from "./components/Nav";
 import NotFound from "./components/NotFound";
 import Register from "./components/Register";
+import View from "./components/View";
 
 
 function App() {
@@ -39,12 +40,17 @@ function App() {
         <Nav />
 
         <Switch>
-          <Route path={["/edit/:id", "/add"]}>
+          
+          <Route path={["/edit/:agentId", "/add"]}>
             {credentials.username ? <AgentForm /> : <Redirect path="/login" />}
           </Route>
 
-          <Route path={["/delete/:id"]}>
+          <Route path={["/delete/:agentId"]}>
           {credentials.username ? <AgentConfirmDelete /> : <Redirect path="/login" />}
+          </Route>
+
+          <Route path={["/view"]}>
+          {credentials.username ? <View /> : <Redirect path="/login" />}
           </Route>
 
           <Route path="/register">

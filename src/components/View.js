@@ -26,7 +26,7 @@ function View() {
 
             <div className="row">
                 {agent.map(agent => (
-                    <Agents key={agent.id} agent={agent} />
+                    <Agents key={agent.agentId} agent={agent} />
                 ))}
             </div>
         </>

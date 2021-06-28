@@ -14,24 +14,10 @@ function Home() {
     }, [history]);
 
     return (
-        <>
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-12">
-                        <h1 className="display-4 text-center">FIELD AGENTS</h1>
-                        <hr />
-                    </div>
-                </div>
-            </div>
-
-            <div className="row">
-                {agent.map(agent => (
-                    <Agents key={agent.id} agent={agent} />
-                ))}
-            </div>
-        </>
+            <>
+            <img src="https://pavbca.com/walldb/original/1/c/c/206397.jpg" width="1300" height="1000"></img>
+            </>
     );
-   
 }
 
 export default Home;
